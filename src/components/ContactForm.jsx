@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import axios from 'axios'
 
 const ContactForm = () => {
   const [formData, setFormData] = useState({
@@ -8,20 +9,32 @@ const ContactForm = () => {
     message: '',
   })
   const [submitted, setSubmitted] = useState(false)
+  const [error, setError] = useState('')
+  const [loading, setLoading] = useState(false)
 
   const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    })
+    setFormData({ ...formData, [e.target.name]: e.target.value })
+    setError('')
   }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
-    console.log('Formulario enviado (estático):', formData)
-    setSubmitted(true)
-    setTimeout(() => setSubmitted(false), 4000)
-    setFormData({ name: '', email: '', subject: '', message: '' })
+    setLoading(true)
+    setError('')
+    try {
+      await axios.post('http://localhost:5001/api/contactos', formData)
+      setSubmitted(true)
+      setTimeout(() => setSubmitted(false), 4000)
+      setFormData({ name: '', email: '', subject: '', message: '' })
+    } catch (err) {
+      setError(
+        err.response?.data?.message ||
+        err.response?.data?.errors?.[0]?.msg ||
+        'Error al enviar. Intenta de nuevo.'
+      )
+    } finally {
+      setLoading(false)
+    }
   }
 
   return (
@@ -92,8 +105,10 @@ const ContactForm = () => {
             required
           ></textarea>
         </div>
-        <button type="submit" className="btn btn-send">
-           Enviar Mensaje
+        {error && <p className="auth-error">{error}</p>}
+
+        <button type="submit" className="btn btn-send" disabled={loading}>
+          {loading ? 'Enviando...' : 'Enviar Mensaje'}
         </button>
       </form>
     </section>
