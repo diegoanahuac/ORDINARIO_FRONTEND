@@ -18,7 +18,7 @@ const AppContent = () => {
 
   useEffect(() => {
     const fetchItems = async () => {
-      const resultado = await axios.get('http://localhost:5001/api/granos')
+      const resultado = await axios.get('https://cota90-backend.onrender.com/api/granos')
       setItems(resultado.data.data || resultado.data)
       setIsLoading(false)
     }

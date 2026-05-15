@@ -3,7 +3,7 @@ import axios from 'axios'
 
 const AuthContext = createContext()
 
-const API = 'http://localhost:5001/api'
+const API = 'https://cota90-backend.onrender.com/api'
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null)

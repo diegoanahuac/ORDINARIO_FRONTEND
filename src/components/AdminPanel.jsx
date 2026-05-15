@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 import { useAuth } from '../context/AuthContext'
 
-const API = 'http://localhost:5001/api'
+const API = 'https://cota90-backend.onrender.com/api'
 
 const emptyGrano = {
   name: '', origin: '', price: '', weight: '', roast: 'Medio', img: '', description: '',

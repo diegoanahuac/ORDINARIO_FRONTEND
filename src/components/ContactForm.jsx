@@ -22,7 +22,7 @@ const ContactForm = () => {
     setLoading(true)
     setError('')
     try {
-      await axios.post('http://localhost:5001/api/contactos', formData)
+      await axios.post('https://cota90-backend.onrender.com/api/contactos', formData)
       setSubmitted(true)
       setTimeout(() => setSubmitted(false), 4000)
       setFormData({ name: '', email: '', subject: '', message: '' })
